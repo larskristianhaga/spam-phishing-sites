@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>no.haga</groupId>
-    <artifactId>spam-phishing</artifactId>
+    <artifactId>spam-phishing-sites</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Playwright test for spamming phishing sites</name>
 
@@ -20,6 +20,14 @@
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
             <version>1.42.0</version>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
