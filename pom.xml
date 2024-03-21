@@ -30,6 +30,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- For parsing JSON file -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
