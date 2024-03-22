@@ -49,7 +49,7 @@ public class Helpers {
      */
     @SneakyThrows
     public List<User> getMockData() {
-        var mockUsersFile = Helpers.class.getResourceAsStream("/mock-data.json");
+        var mockUsersFile = Helpers.class.getResourceAsStream("/mockdata.json");
 
         return new ObjectMapper().readValue(mockUsersFile, new TypeReference<>() {
         });

@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class User {
     private String fullName;
+    private String firstName;
+    private String lastName;
     private String address;
-    private String postcode;
+    private String city;
     private String email;
     private String password;
     private String mobileNumber;
