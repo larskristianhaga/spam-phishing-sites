@@ -1,0 +1,29 @@
+name: "Auto Merge Dependabot PR's"
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [ opened, synchronize ]
+
+jobs:
+  merge-dependabot-pr:
+    name: "Approve and merge Dependabot PR"
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+
+    steps:
+      - name: log PR title
+        run: echo "PR title is ${{ github.event.pull_request.title }}"
+
+      - name: "Approve the PR"
+        run: gh pr review --approve "$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Merge the PR"
+        run: gh pr merge --squash "$PR_NUMBER"
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
