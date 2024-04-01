@@ -1,48 +1,56 @@
 package no.haga;
 
-import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.options.AriaRole;
+import no.haga.models.User;
 
-import java.nio.file.Paths;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import static java.util.Arrays.asList;
+import static no.haga.Helpers.getRandomNumberWithLength;
 
-public class PlaywrightThread extends Thread {
+public class PlaywrightThread implements Runnable {
 
-    private final String browserName;
+    private final User user;
 
-    private PlaywrightThread(String browserName) {
-        this.browserName = browserName;
+    public PlaywrightThread(User user) {
+        this.user = user;
     }
 
     public static void main(String[] args) {
-        // Create separate playwright thread for each browser.
-        for (String browserName : asList("chromium", "webkit", "firefox")) {
-            Thread thread = new PlaywrightThread(browserName);
-            thread.start();
+        List<User> mockUsers = Helpers.getMockData();
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (User user : mockUsers) {
+            executor.submit(new PlaywrightThread(user));
         }
+        executor.shutdown();
     }
 
     @Override
     public void run() {
         try (Playwright playwright = Playwright.create()) {
-            BrowserType browserType = getBrowserType(playwright, browserName);
-            Browser browser = browserType.launch();
-            Page page = browser.newPage();
-            page.navigate("https://playwright.dev/");
-            page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("user-agent-" + browserName + ".png")));
-            System.out.println(page.title());
-        }
-    }
+            System.out.println(STR."Starting test for user: \{user.getFullName()}");
 
-    private static BrowserType getBrowserType(Playwright playwright, String browserName) {
-        return switch (browserName) {
-            case "chromium" -> playwright.chromium();
-            case "webkit" -> playwright.webkit();
-            case "firefox" -> playwright.firefox();
-            default -> throw new IllegalArgumentException();
-        };
+            var fullName = user.getFullName();
+            var address = user.getAddress();
+            var email = user.getEmail();
+            var password = user.getPassword();
+            var phoneNumber = user.getMobileNumber();
+            var creditCardNumber = user.getCreditCardNumber();
+
+            var browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+            var context = browser.newContext();
+            var page = context.newPage();
+
+            var url = "https://lolo577.wpenginepowered.com/Parkin/";
+
+            // Navigate to the URL
+            page.navigate(url);
+
+
+        }
     }
 }
