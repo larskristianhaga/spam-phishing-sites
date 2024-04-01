@@ -20,15 +20,14 @@ public class Helpers {
      * @param length The length of the random number.
      * @return The random number as a string with the specified length.
      */
-    public static String getRandomNumber(int length) {
+    public static String getRandomNumberWithLength(int length) {
         // Calculate the range
-        int max = (int) Math.pow(10, length) - 1;
+        var max = (int) Math.pow(10, length) - 1;
 
         // Generate the random number
-        int randomNumber = random.nextInt(max + 1);
+        var value = random.nextInt(max + 1);
 
-        // Convert to string and pad with leading zeros if necessary
-        return String.format("%0" + length + "d", randomNumber);
+        return String.valueOf(value);
     }
 
     /**
@@ -39,7 +38,9 @@ public class Helpers {
      * @return The random number.
      */
     public static String getRandomNumberBetweenRange(int min, int max) {
-        return String.valueOf(min + (max - min) * random.nextInt());
+        var value = random.nextInt(max - min) + min;
+
+        return String.valueOf(value);
     }
 
     /**
