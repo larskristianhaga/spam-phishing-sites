@@ -1,20 +1,29 @@
 name: "Auto Merge Dependabot PR's"
 
-on:
-  pull_request:
-    branches:
-      - main
-    types: [ opened, synchronize ]
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  merge-dependabot-pr:
+  approve-and-merge-pr:
     name: "Approve and merge Dependabot PR"
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:
-      - name: "Log PR title"
-        run: echo "PR title is ${{ github.event.pull_request.title }}"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "Log changes to version"
+        run: echo "Version going from ${{ steps.metadata.outputs.previous-version }}, to ${{ steps.metadata.outputs.new-version }}"
 
       - name: "Approve the PR"
         run: gh pr review --approve "$PR_NUMBER"
