@@ -27,7 +27,8 @@ public class Helpers {
         // Generate the random number
         var value = random.nextInt(max + 1);
 
-        return String.valueOf(value);
+        // Return the value as a string, with leading zeros if necessary
+        return String.format(STR."%0\{length}d", value);
     }
 
     /**
@@ -38,7 +39,7 @@ public class Helpers {
      * @return The random number.
      */
     public static String getRandomNumberBetweenRange(int min, int max) {
-        var value = random.nextInt(max - min) + min;
+        var value = random.nextInt((max - min) + 1) + min;
 
         return String.valueOf(value);
     }
