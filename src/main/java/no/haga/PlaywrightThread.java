@@ -1,16 +1,14 @@
 package no.haga;
 
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.options.AriaRole;
 import no.haga.models.User;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static no.haga.Helpers.getRandomNumberWithLength;
 
 public class PlaywrightThread implements Runnable {
 
@@ -41,15 +39,13 @@ public class PlaywrightThread implements Runnable {
             var phoneNumber = user.getMobileNumber();
             var creditCardNumber = user.getCreditCardNumber();
 
-            var browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            var context = browser.newContext();
-            var page = context.newPage();
-
-            var url = "https://lolo577.wpenginepowered.com/Parkin/";
-
-            // Navigate to the URL
-            page.navigate(url);
-
+            Browser browser = playwright.webkit().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            BrowserContext context = browser.newContext(new Browser.NewContextOptions()
+                    .setDeviceScaleFactor(3)
+                    .setHasTouch(true)
+                    .setIsMobile(true)
+                    .setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1")
+                    .setViewportSize(390, 664));
 
         }
     }
