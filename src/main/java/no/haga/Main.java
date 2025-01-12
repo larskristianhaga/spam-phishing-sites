@@ -48,7 +48,7 @@ public class Main implements Runnable {
             var creditCardNumber = user.getCreditCardNumber();
 
             var launchOptions = new BrowserType.LaunchOptions()
-                    .setHeadless(false)
+                    .setHeadless(true)
                     .setTimeout(30)
                     .setArgs(List.of("--start-maximized", "--window-position=0,0"));
 
@@ -58,6 +58,13 @@ public class Main implements Runnable {
                         .setViewportSize(390, 664));
 
                 var page = context.newPage();
+
+                page.navigate("https://www.cappelendamm.no/");
+                try {
+                    page.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

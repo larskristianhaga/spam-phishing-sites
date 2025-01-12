@@ -1,4 +1,4 @@
-name: "Auto Merge Dependabot PR's"
+name: "Auto-merge Dependabot PRs if tests pass"
 
 on: pull_request
 
@@ -7,10 +7,29 @@ permissions:
   pull-requests: write
 
 jobs:
+  run-tests:
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: Build with Maven and run tests
+        run: mvn test --batch-mode
+
   approve-and-merge-pr:
     name: "Approve and merge Dependabot PR"
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
+    needs: run-tests
 
     steps:
       - name: Checkout
