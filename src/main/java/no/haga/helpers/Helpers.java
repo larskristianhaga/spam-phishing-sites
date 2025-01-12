@@ -1,14 +1,13 @@
 package no.haga.helpers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
+import com.github.javafaker.Faker;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Playwright;
+import generator.RandomUserAgentGenerator;
+import java.util.Locale;
+import java.util.Random;
 import lombok.experimental.UtilityClass;
 import no.haga.models.User;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 @UtilityClass
 public class Helpers {
@@ -46,18 +45,59 @@ public class Helpers {
     }
 
     /**
-     * Reads the mock file and returns the content as a list of users sorted in a random order.
+     * Generates a new instance of the Faker class with the Norwegian locale.
      *
-     * @return The content of the mock file as a list of users.
+     * @return A new instance of the Faker class.
      */
-    @SneakyThrows
-    public List<User> getMockData() {
-        var mockUsersFile = Helpers.class.getResourceAsStream("/mockdata.json");
-        var users = new ObjectMapper().readValue(mockUsersFile, new TypeReference<List<User>>() {
-        });
+    public User generateFakeUser() {
+        var localFaker = new Faker(Locale.forLanguageTag("nb-NO"));
 
+        var name = localFaker.name();
+        var address = localFaker.address();
+        var internet = localFaker.internet();
+        var phoneNumber = localFaker.phoneNumber();
+        var business = localFaker.business();
+        var idNumber = localFaker.idNumber();
 
-        Collections.shuffle(users);
-        return users;
+        return User.builder()
+                .fullName(name.fullName())
+                .firstName(name.firstName())
+                .lastName(name.lastName())
+                .address(address.fullAddress())
+                .postCode(address.zipCode())
+                .city(address.city())
+                .email(internet.emailAddress())
+                .password(internet.password(true))
+                .phoneNumber(phoneNumber.cellPhone())
+                .idNumber(idNumber.valid())
+                .creditCardNumber(business.creditCardNumber())
+                .creditCardExpiry(business.creditCardExpiry())
+                .creditCardCvc(getRandomNumberBetweenRange(100, 999))
+                .creditCardType(business.creditCardType())
+                .creditCardHolder(name.fullName())
+                .build();
+    }
+
+    /**
+     * Returns a random browser type.
+     *
+     * @param playwright The playwright instance.
+     * @return A random browser type.
+     */
+    public BrowserType getRandomBrowser(Playwright playwright) {
+        int random = (int) (Math.random() * 3);
+        return switch (random) {
+            case 0 -> playwright.webkit();
+            case 1 -> playwright.firefox();
+            default -> playwright.chromium();
+        };
+    }
+
+    public String getRandomMobileUserAgent() {
+        return RandomUserAgentGenerator.getNextMobile();
+    }
+
+    public String getRandomDesktopUserAgent() {
+        return RandomUserAgentGenerator.getNextNonMobile();
     }
 }

@@ -1,10 +1,10 @@
 package no.haga.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Builder
 public class User {
     private String fullName;
     private String firstName;
@@ -14,6 +14,11 @@ public class User {
     private String city;
     private String email;
     private String password;
-    private String mobileNumber;
+    private String phoneNumber;
+    private String idNumber;
     private String creditCardNumber;
+    private String creditCardExpiry;
+    private String creditCardCvc;
+    private String creditCardType;
+    private String creditCardHolder;
 }
