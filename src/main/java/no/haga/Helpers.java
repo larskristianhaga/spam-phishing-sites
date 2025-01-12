@@ -29,7 +29,7 @@ public class Helpers {
         var value = random.nextInt(max + 1);
 
         // Return the value as a string, with leading zeros if necessary
-        return String.format(STR."%0\{length}d", value);
+        return String.format("%0" + length + "d", value);
     }
 
     /**
