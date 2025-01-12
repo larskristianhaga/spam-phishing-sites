@@ -4,13 +4,13 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
-import lombok.extern.java.Log;
-import no.haga.models.User;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import lombok.extern.java.Log;
+import no.haga.helpers.Helpers;
+import no.haga.models.User;
 
 @Log
 public class Main implements Runnable {
@@ -53,7 +53,9 @@ public class Main implements Runnable {
                     .setArgs(List.of("--start-maximized", "--window-position=0,0"));
 
             try (Browser browser = playwright.webkit().launch(launchOptions)) {
-                BrowserContext context = browser.newContext(new Browser.NewContextOptions().setDeviceScaleFactor(3).setHasTouch(true).setIsMobile(true).setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1").setViewportSize(390, 664));
+                BrowserContext context = browser.newContext(new Browser.NewContextOptions().setDeviceScaleFactor(3).setHasTouch(true).setIsMobile(true)
+                        .setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1")
+                        .setViewportSize(390, 664));
 
                 var page = context.newPage();
             }
