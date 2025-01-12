@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import no.haga.models.User;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -45,15 +46,18 @@ public class Helpers {
     }
 
     /**
-     * Reads the mock file.
+     * Reads the mock file and returns the content as a list of users sorted in a random order.
      *
-     * @return The content of the mock file as a string.
+     * @return The content of the mock file as a list of users.
      */
     @SneakyThrows
     public List<User> getMockData() {
         var mockUsersFile = Helpers.class.getResourceAsStream("/mockdata.json");
-
-        return new ObjectMapper().readValue(mockUsersFile, new TypeReference<>() {
+        var users = new ObjectMapper().readValue(mockUsersFile, new TypeReference<List<User>>() {
         });
+
+
+        Collections.shuffle(users);
+        return users;
     }
 }
