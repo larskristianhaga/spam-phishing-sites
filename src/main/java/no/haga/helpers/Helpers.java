@@ -1,4 +1,4 @@
-package no.haga;
+package no.haga.helpers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
