@@ -1,10 +1,11 @@
-# Spam Phishers
+# Spam Phishing Sites
 
-A template application that uses Playwright to spam sites that are trying to phish for information with fake user data.
+A template application used to spam sites that are trying to phish for information with fake user data.
+
+Uses [Playwright](https://playwright.dev/) to automate the process of filling out forms on phishing sites.
+Uses [Mockaroo](https://www.mockaroo.com/) to generate fake user data.
 
 Mockdata is located under `src/main/resources/mockdata.json`.
-
-New mockdata can be created using [mockaroo](https://www.mockaroo.com/).
 
 ## Useful commands
 
