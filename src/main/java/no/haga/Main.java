@@ -3,11 +3,11 @@ package no.haga;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Playwright;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import lombok.extern.java.Log;
 import no.haga.config.Config;
 import no.haga.helpers.Helpers;
+
+import static no.haga.CopyPaste.copyPasteCode;
 
 @Log
 public class Main implements Runnable {
@@ -17,28 +17,35 @@ public class Main implements Runnable {
     public static void main(String[] args) {
         log.info("Starting spam...");
 
-        try (ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS)) {
-            for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                executor.submit(new Main());
-            }
+        for (int i = 0; i < NUMBER_OF_THREADS; i++) {
+            log.info("Starting new thread");
+            Main obj = new Main();
+            Thread thread = new Thread(obj);
+            thread.start();
         }
     }
 
     @Override
     public void run() {
+        log.info("Running");
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            generateBrowserAndExecute();
+        }
+    }
+
+    private void generateBrowserAndExecute() {
         var user = Helpers.generateFakeUser();
         try (Playwright playwright = Playwright.create()) {
             log.info("Starting test for user: " + user.getFullName());
 
             try (Browser browser = Helpers.getRandomBrowser(playwright).launch(Config.getLaunchOptions())) {
-                BrowserContext context = browser.newContext(
-                        new Browser.NewContextOptions().setDeviceScaleFactor(3)
-                                .setHasTouch(true)
-                                .setIsMobile(true)
-                                .setUserAgent(Helpers.getRandomMobileUserAgent())
-                                .setViewportSize(390, 664));
+                BrowserContext context = browser.newContext(new Browser.NewContextOptions()
+                        .setUserAgent(Helpers.getRandomMobileUserAgent())
+                        .setViewportSize(390, 664));
 
                 var page = context.newPage();
+
+                copyPasteCode(page, user);
             }
         }
     }
