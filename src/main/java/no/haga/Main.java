@@ -15,7 +15,7 @@ public class Main implements Runnable {
     private static final int NUMBER_OF_THREADS = 3;
 
     public static void main(String[] args) {
-        log.info("Starting spam...");
+        log.info("Starting program...");
 
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
             log.info("Starting new thread");
@@ -28,7 +28,7 @@ public class Main implements Runnable {
     @Override
     @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
-        log.info("Running");
+        log.info("Running in a new thread");
         while (true) {
             generateBrowserAndExecute();
         }
@@ -37,7 +37,7 @@ public class Main implements Runnable {
     private void generateBrowserAndExecute() {
         var user = Helpers.generateFakeUser();
         try (Playwright playwright = Playwright.create()) {
-            log.info("Starting test with user: " + user);
+            log.info("user: " + user);
 
             try (Browser browser = Helpers.getRandomBrowser(playwright).launch(Config.getLaunchOptions())) {
                 BrowserContext context = browser.newContext(new Browser.NewContextOptions()
