@@ -78,7 +78,22 @@ public class Helpers {
         var internet = localFaker.internet();
         var business = localFaker.business();
 
-        return User.builder().fullName(fullName).firstName(firstName).lastName(lastName).address(address.fullAddress()).postCode(address.zipCode()).city(address.city()).email(email).password(internet.password(true)).phoneNumber(phoneNumber).idNumber(idNumber).creditCardNumber(card.getNumber()).creditCardExpiry(business.creditCardExpiry()).creditCardCvc(business.securityCode()).creditCardType(card.getType()).creditCardHolder(fullName).build();
+        return User.builder()
+                .fullName(fullName)
+                .firstName(firstName)
+                .lastName(lastName)
+                .address(address.fullAddress())
+                .postCode(address.zipCode())
+                .city(address.city())
+                .email(email)
+                .password(internet.password(true))
+                .phoneNumber(phoneNumber)
+                .idNumber(idNumber)
+                .creditCardNumber(card.getNumber())
+                .creditCardExpiry(business.creditCardExpiry())
+                .creditCardCvc(business.securityCode())
+                .creditCardType(card.getType())
+                .build();
     }
 
     public static Card generateVisaOrMastercard(Faker faker) {
