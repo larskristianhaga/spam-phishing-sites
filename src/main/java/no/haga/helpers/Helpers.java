@@ -8,6 +8,8 @@ import net.datafaker.Faker;
 import no.haga.models.Card;
 import no.haga.models.User;
 
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Random;
 
@@ -97,7 +99,7 @@ public class Helpers {
                 .phoneNumber(phoneNumber)
                 .idNumber(idNumber)
                 .creditCardNumber(card.getNumber())
-                .creditCardExpiry(business.creditCardExpiry())
+                .creditCardExpiry(generateExpiryDate())
                 .creditCardCvc(business.securityCode())
                 .creditCardType(card.getType())
                 .build();
@@ -111,6 +113,21 @@ public class Helpers {
             // Mastercard (51-55xxxx, 2221-2720xxxx, 16 digits)
             return new Card("Mastercard", faker.regexify("(5[1-5]\\d{14}|222[1-9]\\d{12}|22[3-9]\\d{13}|2[3-6]\\d{14}|27[01]\\d{13}|2720\\d{12})"));
         }
+    }
+
+    public static String generateExpiryDate() {
+        Random rand = new Random();
+
+        var currentYear = LocalDate.now().getYear();
+        var yearOffset = rand.nextInt(5) + 1;
+        var expiryYear = currentYear + yearOffset;
+
+        var expiryMonth = rand.nextInt(12) + 1;
+
+        DecimalFormat monthFormat = new DecimalFormat("00");
+        String formattedMonth = monthFormat.format(expiryMonth);
+
+        return formattedMonth + Integer.toString(expiryYear).substring(2);
     }
 
     /**
