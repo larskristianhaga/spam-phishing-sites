@@ -1,12 +1,15 @@
 package no.haga.helpers;
 
-import com.github.javafaker.Faker;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 import generator.RandomUserAgentGenerator;
+
 import java.util.Locale;
 import java.util.Random;
+
 import lombok.experimental.UtilityClass;
+import net.datafaker.Faker;
+import no.haga.models.Card;
 import no.haga.models.User;
 
 @UtilityClass
@@ -52,30 +55,40 @@ public class Helpers {
     public User generateFakeUser() {
         var localFaker = new Faker(Locale.forLanguageTag("nb-NO"));
 
-        var name = localFaker.name();
+        var phoneNumber = localFaker.regexify("[49]\\d{7}");
+        var idNumber = localFaker.regexify("\\d{6}\\d{5}");
+        var card = generateVisaOrMastercard(localFaker);
+
+        var firstName = localFaker.name().firstName();
+        var lastName = localFaker.name().lastName();
+        var fullName = firstName + " " + lastName;
+
+        var firstInitial = firstName.charAt(0);
+
+        String[] emailFormats = {firstName + "." + lastName + "@%s", firstName + lastName + "@%s", firstInitial + "." + lastName + "@%s", firstName + "_" + lastName.charAt(0) + "@%s", firstName + localFaker.number().digits(3) + "@%s", firstName + "." + lastName + localFaker.number().digits(2) + "@%s", firstInitial + lastName + "@%s"};
+
+        // Choose a random email format
+        String[] domains = {"gmail.com", "outlook.com", "yahoo.com", "protonmail.com", "online.no", "hotmail.com", "hotmail.no", "live.no"};
+        var domain = domains[localFaker.random().nextInt(domains.length)];
+
+        var emailFormat = emailFormats[localFaker.random().nextInt(emailFormats.length)];
+        var email = String.format(emailFormat, domain);
+
         var address = localFaker.address();
         var internet = localFaker.internet();
-        var phoneNumber = localFaker.phoneNumber();
         var business = localFaker.business();
-        var idNumber = localFaker.idNumber();
 
-        return User.builder()
-                .fullName(name.fullName())
-                .firstName(name.firstName())
-                .lastName(name.lastName())
-                .address(address.fullAddress())
-                .postCode(address.zipCode())
-                .city(address.city())
-                .email(internet.emailAddress())
-                .password(internet.password(true))
-                .phoneNumber(phoneNumber.cellPhone())
-                .idNumber(idNumber.valid())
-                .creditCardNumber(business.creditCardNumber())
-                .creditCardExpiry(business.creditCardExpiry())
-                .creditCardCvc(getRandomNumberBetweenRange(100, 999))
-                .creditCardType(business.creditCardType())
-                .creditCardHolder(name.fullName())
-                .build();
+        return User.builder().fullName(fullName).firstName(firstName).lastName(lastName).address(address.fullAddress()).postCode(address.zipCode()).city(address.city()).email(email).password(internet.password(true)).phoneNumber(phoneNumber).idNumber(idNumber).creditCardNumber(card.getNumber()).creditCardExpiry(business.creditCardExpiry()).creditCardCvc(business.securityCode()).creditCardType(card.getType()).creditCardHolder(fullName).build();
+    }
+
+    public static Card generateVisaOrMastercard(Faker faker) {
+        if (faker.random().nextBoolean()) {
+            // Visa (Starts with 4, 16 digits)
+            return new Card("Visa", faker.regexify("4\\d{15}"));
+        } else {
+            // Mastercard (51-55xxxx, 2221-2720xxxx, 16 digits)
+            return new Card("Mastercard", faker.regexify("(5[1-5]\\d{14}|222[1-9]\\d{12}|22[3-9]\\d{13}|2[3-6]\\d{14}|27[01]\\d{13}|2720\\d{12})"));
+        }
     }
 
     /**
