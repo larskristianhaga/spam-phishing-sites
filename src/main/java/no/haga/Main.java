@@ -26,9 +26,10 @@ public class Main implements Runnable {
     }
 
     @Override
+    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         log.info("Running");
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+        while (true) {
             generateBrowserAndExecute();
         }
     }
@@ -36,7 +37,7 @@ public class Main implements Runnable {
     private void generateBrowserAndExecute() {
         var user = Helpers.generateFakeUser();
         try (Playwright playwright = Playwright.create()) {
-            log.info("Starting test for user: " + user.getFullName());
+            log.info("Starting test with user: " + user);
 
             try (Browser browser = Helpers.getRandomBrowser(playwright).launch(Config.getLaunchOptions())) {
                 BrowserContext context = browser.newContext(new Browser.NewContextOptions()
