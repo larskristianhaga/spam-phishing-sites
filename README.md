@@ -3,7 +3,7 @@
 A template application used to spam sites that are trying to phish for information with fake user data.
 
 Uses [Playwright](https://playwright.dev/) to automate the process of filling out forms on phishing sites.\
-Uses [Faker](https://github.com/DiUS/java-faker) to generate fake user data.
+Uses [Datafaker](https://github.com/datafaker-net/datafaker) to generate fake user data.
 
 ## Useful commands
 
