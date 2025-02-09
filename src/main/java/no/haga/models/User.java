@@ -2,9 +2,11 @@ package no.haga.models;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class User {
     private String fullName;
     private String firstName;
@@ -20,5 +22,4 @@ public class User {
     private String creditCardExpiry;
     private String creditCardCvc;
     private String creditCardType;
-    private String creditCardHolder;
 }
