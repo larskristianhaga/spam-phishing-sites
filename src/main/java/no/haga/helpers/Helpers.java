@@ -3,14 +3,13 @@ package no.haga.helpers;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 import generator.RandomUserAgentGenerator;
-
-import java.util.Locale;
-import java.util.Random;
-
 import lombok.experimental.UtilityClass;
 import net.datafaker.Faker;
 import no.haga.models.Card;
 import no.haga.models.User;
+
+import java.util.Locale;
+import java.util.Random;
 
 @UtilityClass
 public class Helpers {
@@ -65,7 +64,15 @@ public class Helpers {
 
         var firstInitial = firstName.charAt(0);
 
-        String[] emailFormats = {firstName + "." + lastName + "@%s", firstName + lastName + "@%s", firstInitial + "." + lastName + "@%s", firstName + "_" + lastName.charAt(0) + "@%s", firstName + localFaker.number().digits(3) + "@%s", firstName + "." + lastName + localFaker.number().digits(2) + "@%s", firstInitial + lastName + "@%s"};
+        String[] emailFormats = {
+                firstName + "." + lastName + "@%s",
+                firstName + lastName + "@%s",
+                firstInitial + "." + lastName + "@%s",
+                firstName + "_" + lastName.charAt(0) + "@%s",
+                firstName + localFaker.number().digits(3) + "@%s",
+                firstName + "." + lastName + localFaker.number().digits(2) + "@%s",
+                firstInitial + lastName + "@%s"
+        };
 
         // Choose a random email format
         String[] domains = {"gmail.com", "outlook.com", "yahoo.com", "protonmail.com", "online.no", "hotmail.com", "hotmail.no", "live.no"};
