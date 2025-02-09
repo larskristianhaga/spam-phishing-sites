@@ -10,6 +10,7 @@ import no.haga.models.User;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -66,7 +67,7 @@ public class Helpers {
 
         var firstInitial = firstName.charAt(0);
 
-        String[] emailFormats = {
+        var emailFormats = List.of(
                 firstName + "." + lastName + "@%s",
                 firstName + lastName + "@%s",
                 firstInitial + "." + lastName + "@%s",
@@ -74,13 +75,13 @@ public class Helpers {
                 firstName + localFaker.number().digits(3) + "@%s",
                 firstName + "." + lastName + localFaker.number().digits(2) + "@%s",
                 firstInitial + lastName + "@%s"
-        };
+        );
 
         // Choose a random email format
-        String[] domains = {"gmail.com", "outlook.com", "yahoo.com", "protonmail.com", "online.no", "hotmail.com", "hotmail.no", "live.no"};
-        var domain = domains[localFaker.random().nextInt(domains.length)];
+        var domains = List.of("gmail.com", "outlook.com", "yahoo.com", "protonmail.com", "online.no", "hotmail.com", "hotmail.no", "live.no");
+        var domain = domains.get(localFaker.random().nextInt(domains.size()));
 
-        var emailFormat = emailFormats[localFaker.random().nextInt(emailFormats.length)];
+        var emailFormat = emailFormats.get(localFaker.random().nextInt(emailFormats.size()));
         var email = String.format(emailFormat, domain);
 
         var address = localFaker.address();
@@ -125,7 +126,7 @@ public class Helpers {
         var expiryMonth = rand.nextInt(12) + 1;
 
         DecimalFormat monthFormat = new DecimalFormat("00");
-        String formattedMonth = monthFormat.format(expiryMonth);
+        var formattedMonth = monthFormat.format(expiryMonth);
 
         return formattedMonth + Integer.toString(expiryYear).substring(2);
     }
@@ -137,7 +138,7 @@ public class Helpers {
      * @return A random browser type.
      */
     public BrowserType getRandomBrowser(Playwright playwright) {
-        int random = (int) (Math.random() * 3);
+        var random = (int) (Math.random() * 3);
         return switch (random) {
             case 0 -> playwright.webkit();
             case 1 -> playwright.firefox();
