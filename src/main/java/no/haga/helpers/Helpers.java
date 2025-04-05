@@ -3,6 +3,7 @@ package no.haga.helpers;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 import generator.RandomUserAgentGenerator;
+import java.security.SecureRandom;
 import lombok.experimental.UtilityClass;
 import net.datafaker.Faker;
 import no.haga.models.Card;
@@ -152,5 +153,18 @@ public class Helpers {
 
     public String getRandomDesktopUserAgent() {
         return RandomUserAgentGenerator.getNextNonMobile();
+    }
+
+    public String getRandomFakeCouponCode() {
+        final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        final int CODE_LENGTH = 8;
+        final SecureRandom random = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(CODE_LENGTH);
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            int randomIndex = random.nextInt(ALPHANUMERIC.length());
+            sb.append(ALPHANUMERIC.charAt(randomIndex));
+        }
+        return sb.toString();
     }
 }
