@@ -9,6 +9,7 @@ public class Config {
     public BrowserType.LaunchOptions getLaunchOptions() {
         return new BrowserType.LaunchOptions()
                 .setHeadless(false)
-                .setSlowMo(500);
+                .setSlowMo(500)
+                .setTimeout(1500);
     }
 }
