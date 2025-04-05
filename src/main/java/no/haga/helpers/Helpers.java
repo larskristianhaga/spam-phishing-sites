@@ -4,16 +4,15 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 import generator.RandomUserAgentGenerator;
 import java.security.SecureRandom;
-import lombok.experimental.UtilityClass;
-import net.datafaker.Faker;
-import no.haga.models.Card;
-import no.haga.models.User;
-
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import lombok.experimental.UtilityClass;
+import net.datafaker.Faker;
+import no.haga.models.Card;
+import no.haga.models.User;
 
 @UtilityClass
 public class Helpers {
@@ -166,5 +165,9 @@ public class Helpers {
             sb.append(ALPHANUMERIC.charAt(randomIndex));
         }
         return sb.toString();
+    }
+
+    public boolean getFiftyFifty() {
+        return new Random().nextInt(100) < 50;
     }
 }

@@ -25,5 +25,5 @@ TODO:
 - [ ] Faker data to insert on the first run.
 - [ ] A way to stagger the threads so they don't all run at the same time, some tests will then get a 401/403 error.
 - [X] Helper method for generating Coupon codes.
-- [ ] Helper method for randomeness, Eg, takes in a chance and gives an int back, or something.
+- [X] Helper method for randomeness, Eg, takes in a chance and gives an int back, or something.
 - 
