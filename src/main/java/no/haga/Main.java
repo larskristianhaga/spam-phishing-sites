@@ -22,6 +22,12 @@ public class Main implements Runnable {
             Main obj = new Main();
             Thread thread = new Thread(obj);
             thread.start();
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                log.error("Thread sleep interrupted", e);
+            }
         }
     }
 
