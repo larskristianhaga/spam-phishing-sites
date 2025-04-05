@@ -10,23 +10,23 @@ import no.haga.helpers.Helpers;
 import static no.haga.CopyPaste.copyPasteCode;
 
 @Log
-public class Main implements Runnable {
+public class MainPlaywright implements Runnable {
 
     private static final int NUMBER_OF_THREADS = 3;
 
     public static void main(String[] args) {
-        log.info("Starting program...");
+        log.info("Starting Playwright program...");
 
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
             log.info("Starting new thread");
-            Main obj = new Main();
+            MainPlaywright obj = new MainPlaywright();
             Thread thread = new Thread(obj);
             thread.start();
 
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                log.error("Thread sleep interrupted", e);
+                log.severe("Thread sleep interrupted");
             }
         }
     }
