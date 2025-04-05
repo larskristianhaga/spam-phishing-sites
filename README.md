@@ -18,3 +18,12 @@ Codegen with device:
 ```bash
 mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args='codegen --device="iPhone 13" playwright.dev'
 ```
+
+
+TODO:
+- [ ] Better install for both windows, and mac.
+- [ ] Faker data to insert on the first run.
+- [ ] A way to stagger the threads so they don't all run at the same time, some tests will then get a 401/403 error.
+- [ ] Helper method for generating Coupon codes.
+- [ ] Helper method for randomeness, Eg, takes in a chance and gives an int back, or something.
+- 
