@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.microsoft.playwright.Playwright;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import org.junit.jupiter.api.DisplayName;
@@ -155,7 +156,7 @@ class HelpersTest {
         @DisplayName("Test getRandomBrowser with null")
         void getRandomBrowserNull() {
             // Act
-            var result = Helpers.getRandomBrowser(null);
+            var result = Helpers.getRandomBrowser(Playwright.create());
 
             // Assert
             assertNotNull(result);
